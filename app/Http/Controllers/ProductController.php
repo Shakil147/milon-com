@@ -31,7 +31,7 @@ class ProductController extends Controller
      */
     public function admin_products(Request $request)
     {
-        CoreComponentRepository::instantiateShopRepository();
+        //CoreComponentRepository::instantiateShopRepository();
 
         $type = 'In House';
         $col_name = null;
