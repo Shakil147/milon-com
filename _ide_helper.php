@@ -17979,7 +17979,7 @@
          */ 
         public static function instantiateShopRepository()
         {
-                      //  return \MehediIitdu\CoreComponentRepository\CoreComponentRepository::instantiateShopRepository();
+                        return \MehediIitdu\CoreComponentRepository\CoreComponentRepository::instantiateShopRepository();
         }
                     /**
          * 
