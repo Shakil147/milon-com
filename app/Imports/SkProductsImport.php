@@ -25,8 +25,9 @@ class SkProductsImport implements ToCollection, WithHeadingRow, WithValidation, 
 
     public function collection(Collection $rows) {
 
-        $rows = $rows->whereNotNull('title');
-       // dd('shakil',$rows);
+         $single_products = $rows->whereNotNull('title');
+        // $rows = $rows->whereNotNull('title');
+      //  dd('shakil',$rows);
         $canImport = true;
         if (addon_is_activated('seller_subscription')){
             if(Auth::user()->user_type == 'seller' && Auth::user()->seller->seller_package && (count($rows) + Auth::user()->seller->user->products()->count()) > Auth::user()->seller->seller_package->product_upload_limit) {
@@ -36,11 +37,9 @@ class SkProductsImport implements ToCollection, WithHeadingRow, WithValidation, 
         }
 
         if($canImport) {
-            foreach ($rows as $row) {
+            foreach ($single_products as $row) {
+                $arrarr_images = $rows->where('handle',$row['handle'])->whereNotNull('image_src')->pluck('image_src')->toArray();
 				$approved = 1;
-				if(Auth::user()->user_type == 'seller' && get_setting('product_approve_by_admin') == 1) {
-					$approved = 0;
-				}
 
 
                 $catehoryId = $this->getCategoryId($row['type'] ?? 'Demo category 1');
@@ -66,7 +65,7 @@ class SkProductsImport implements ToCollection, WithHeadingRow, WithValidation, 
                             'variations' => json_encode(array()),
                             'slug' => preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', strtolower($row['title']))) . '-' . Str::random(5),
                             'thumbnail_img' => $this->downloadThumbnail($row['image_src']),
-                            'photos' => $this->downloadGalleryImages($row['image_src']),
+                            'photos' => $this->downloadGalleryImages($arrarr_images),
                 ]);
                 ProductStock::create([
                     'product_id' => $productId->id,
@@ -82,6 +81,11 @@ class SkProductsImport implements ToCollection, WithHeadingRow, WithValidation, 
 
     }
 
+
+
+    public function newProduct($row){
+
+    }
     public function model(array $row)
     {
         ++$this->rows;
@@ -119,7 +123,7 @@ class SkProductsImport implements ToCollection, WithHeadingRow, WithValidation, 
 
     public function downloadGalleryImages($urls){
         $data = array();
-        foreach(explode(',', str_replace(' ', '', $urls)) as $url){
+        foreach($urls as $url){
             $data[] = $this->downloadThumbnail($url);
         }
         return implode(',', $data);
