@@ -5,15 +5,15 @@
     <div class="home-banner-area mb-4 pt-3">
         <div class="container">
             <div class="row gutters-10 position-relative">
-                <div class="col-lg-3 position-static d-none d-lg-block">
+                {{-- <div class="col-lg-3 position-static d-none d-lg-block">
                     @include('frontend.partials.category_menu')
-                </div>
+                </div> --}}
 
                 @php
                     $num_todays_deal = count($todays_deal_products);
                 @endphp
 
-                <div class="@if($num_todays_deal > 0) col-lg-7 @else col-lg-9 @endif">
+                <div class="@if($num_todays_deal > 0) col-lg-12 @else col-lg-12 @endif">
                     @if (get_setting('home_slider_images') != null)
                         <div class="aiz-carousel dots-inside-bottom mobile-img-auto-height" data-arrows="true" data-dots="true" data-autoplay="true">
                             @php $slider_images = json_decode(get_setting('home_slider_images'), true);  @endphp
@@ -36,7 +36,7 @@
                             @endforeach
                         </div>
                     @endif
-                    @if (count($featured_categories) > 0)
+                    @if (count($featured_categories) > 0 && 1==0)
                         <ul class="list-unstyled mb-0 row gutters-5">
                             @foreach ($featured_categories as $key => $category)
                                 <li class="minw-0 col-4 col-md mt-3">
@@ -164,8 +164,18 @@
     @endif
 
 
+    {{-- Featured Section --}}
+    {{-- <div id="section_featured">
+
+    </div> --}}
+
+    {{-- Best Selling  --}}
+    <div id="section_best_selling">
+
+    </div>
+
     <div id="section_newest">
-        @if (count($newest_products) > 0)
+        @if (count($newest_products) > 0 )
             <section class="mb-4">
                 <div class="container">
                     <div class="px-2 py-4 px-md-4 py-md-3 bg-white shadow-sm rounded">
@@ -185,18 +195,8 @@
                         </div>
                     </div>
                 </div>
-            </section>   
+            </section>
         @endif
-    </div>
-
-    {{-- Featured Section --}}
-    <div id="section_featured">
-
-    </div>
-
-    {{-- Best Selling  --}}
-    <div id="section_best_selling">
-
     </div>
 
     <!-- Auction Product -->
@@ -309,12 +309,12 @@
     @endif
 
     {{-- Best Seller --}}
-    <div id="section_best_sellers">
+    {{-- <div id="section_best_sellers">
 
-    </div>
+    </div> --}}
 
     {{-- Top 10 categories and Brands --}}
-    @if (get_setting('top10_categories') != null && get_setting('top10_brands') != null)
+    @if (get_setting('top10_categories') != null && get_setting('top10_brands') != null && 1==0)
     <section class="mb-4">
         <div class="container">
             <div class="row gutters-10">
