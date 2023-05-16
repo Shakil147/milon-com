@@ -103,7 +103,7 @@ class CartController extends Controller
             }
 
             $data['variation'] = $str;
-
+            // dd($product->stocks);
             $product_stock = $product->stocks->where('variant', $str)->first();
             $price = $product_stock->price;
 
@@ -230,7 +230,7 @@ class CartController extends Controller
                 $temp_user_id = $request->session()->get('temp_user_id');
                 $carts = Cart::where('temp_user_id', $temp_user_id)->get();
             }
-			
+
             return array(
                 'status' => 1,
                 'cart_count' => count($carts),
@@ -306,7 +306,7 @@ class CartController extends Controller
             $product_stock = $product->stocks->where('variant', $cartItem['variation'])->first();
             $quantity = $product_stock->qty;
             $price = $product_stock->price;
-			
+
 			//discount calculation
             $discount_applicable = false;
 

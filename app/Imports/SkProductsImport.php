@@ -89,6 +89,7 @@ class SkProductsImport implements ToCollection, WithHeadingRow, WithValidation, 
                 $productId->save();
                 if(count($productOptions)){
                     foreach($productOptions as $po){
+
                         foreach($po['values'] as $val){
                             ProductStock::create([
                                 'product_id' => $productId->id,
