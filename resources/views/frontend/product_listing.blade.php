@@ -134,55 +134,55 @@
                                     </div>
                                 </div>
 
-                                @foreach ($attributes as $attribute)
-                                    <div class="bg-white shadow-sm rounded mb-3">
-                                        <div class="fs-15 fw-600 p-3 border-bottom">
-                                            {{ translate('Filter by') }} {{ $attribute->getTranslation('name') }}
-                                        </div>
-                                        <div class="p-3">
-                                            <div class="aiz-checkbox-list">
-                                                @foreach ($attribute->attribute_values as $attribute_value)
-                                                    <label class="aiz-checkbox">
-                                                        <input
-                                                            type="checkbox"
-                                                            name="selected_attribute_values[]"
-                                                            value="{{ $attribute_value->value }}" @if (in_array($attribute_value->value, $selected_attribute_values)) checked @endif
-                                                            onchange="filter()"
-                                                        >
-                                                        <span class="aiz-square-check"></span>
-                                                        <span>{{ $attribute_value->value }}</span>
-                                                    </label>
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
+                                <!--@foreach ($attributes as $attribute)-->
+                                <!--    <div class="bg-white shadow-sm rounded mb-3">-->
+                                <!--        <div class="fs-15 fw-600 p-3 border-bottom">-->
+                                <!--            {{ translate('Filter by') }} {{ $attribute->getTranslation('name') }}-->
+                                <!--        </div>-->
+                                <!--        <div class="p-3">-->
+                                <!--            <div class="aiz-checkbox-list">-->
+                                <!--                @foreach ($attribute->attribute_values as $attribute_value)-->
+                                <!--                    <label class="aiz-checkbox">-->
+                                <!--                        <input-->
+                                <!--                            type="checkbox"-->
+                                <!--                            name="selected_attribute_values[]"-->
+                                <!--                            value="{{ $attribute_value->value }}" @if (in_array($attribute_value->value, $selected_attribute_values)) checked @endif-->
+                                <!--                            onchange="filter()"-->
+                                <!--                        >-->
+                                <!--                        <span class="aiz-square-check"></span>-->
+                                <!--                        <span>{{ $attribute_value->value }}</span>-->
+                                <!--                    </label>-->
+                                <!--                @endforeach-->
+                                <!--            </div>-->
+                                <!--        </div>-->
+                                <!--    </div>-->
+                                <!--@endforeach-->
 
-                                @if (get_setting('color_filter_activation'))
-                                    <div class="bg-white shadow-sm rounded mb-3">
-                                        <div class="fs-15 fw-600 p-3 border-bottom">
-                                            {{ translate('Filter by color')}}
-                                        </div>
-                                        <div class="p-3">
-                                            <div class="aiz-radio-inline">
-                                                @foreach ($colors as $key => $color)
-                                                <label class="aiz-megabox pl-0 mr-2" data-toggle="tooltip" data-title="{{ $color->name }}">
-                                                    <input
-                                                        type="radio"
-                                                        name="color"
-                                                        value="{{ $color->code }}"
-                                                        onchange="filter()"
-                                                        @if(isset($selected_color) && $selected_color == $color->code) checked @endif
-                                                    >
-                                                    <span class="aiz-megabox-elem rounded d-flex align-items-center justify-content-center p-1 mb-2">
-                                                        <span class="size-30px d-inline-block rounded" style="background: {{ $color->code }};"></span>
-                                                    </span>
-                                                </label>
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endif
+                                <!--@if (get_setting('color_filter_activation'))-->
+                                <!--    <div class="bg-white shadow-sm rounded mb-3">-->
+                                <!--        <div class="fs-15 fw-600 p-3 border-bottom">-->
+                                <!--            {{ translate('Filter by color')}}-->
+                                <!--        </div>-->
+                                <!--        <div class="p-3">-->
+                                <!--            <div class="aiz-radio-inline">-->
+                                <!--                @foreach ($colors as $key => $color)-->
+                                <!--                <label class="aiz-megabox pl-0 mr-2" data-toggle="tooltip" data-title="{{ $color->name }}">-->
+                                <!--                    <input-->
+                                <!--                        type="radio"-->
+                                <!--                        name="color"-->
+                                <!--                        value="{{ $color->code }}"-->
+                                <!--                        onchange="filter()"-->
+                                <!--                        @if(isset($selected_color) && $selected_color == $color->code) checked @endif-->
+                                <!--                    >-->
+                                <!--                    <span class="aiz-megabox-elem rounded d-flex align-items-center justify-content-center p-1 mb-2">-->
+                                <!--                        <span class="size-30px d-inline-block rounded" style="background: {{ $color->code }};"></span>-->
+                                <!--                    </span>-->
+                                <!--                </label>-->
+                                <!--                @endforeach-->
+                                <!--            </div>-->
+                                <!--        </div>-->
+                                <!--    </div>-->
+                                <!--@endif-->
 
                                 {{-- <button type="submit" class="btn btn-styled btn-block btn-base-4">Apply filter</button> --}}
                             </div>

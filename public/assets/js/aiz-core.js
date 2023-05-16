@@ -1236,10 +1236,10 @@ $.fn.toggleAttr = function (attr, attr1, attr2) {
                 slidesArrows = !slidesArrows ? false : slidesArrows;
                 slidesDots = !slidesDots ? false : slidesDots;
                 slidesRows = !slidesRows ? 1 : slidesRows;
-                slidesAutoplay = !slidesAutoplay ? false : slidesAutoplay;
+                slidesAutoplay = !slidesAutoplay ? true : slidesAutoplay;
                 slidesFade = !slidesFade ? false : slidesFade;
                 asNavFor = !asNavFor ? null : asNavFor;
-                infinite = !infinite ? false : infinite;
+                infinite = !infinite ? true : infinite;
                 focusOnSelect = !focusOnSelect ? false : focusOnSelect;
                 adaptiveHeight = !adaptiveHeight ? false : adaptiveHeight;
 
