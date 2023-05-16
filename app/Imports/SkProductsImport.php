@@ -45,19 +45,20 @@ class SkProductsImport implements ToCollection, WithHeadingRow, WithValidation, 
         if($canImport) {
             foreach ($single_products as $key => $row) {
                 $arrarr_images = $rows->where('handle',$row['handle'])->whereNotNull('image_src')->pluck('image_src')->toArray();
-                $arrarr_option1_name = $rows->where('handle',$row['handle'])->whereNotNull('option1_name')->pluck('option1_name')->toArray();
+                $arrarr_option1_name = $rows->where('handle',$row['handle'])
+                ->whereNotNull('option1_name')
+                ->where('option1_name','!=','Title')
+                ->pluck('option1_name')->toArray();
                // dd($arrarr_option1_name);
 
                 $attribute_ids = Attribute::query()->whereIn('name',$arrarr_option1_name )->get()->pluck('id')->toArray();
-              //  dd( $attribute_ids );
 				$approved = 1;
 
                  [$ids,$productOptions] = $this->productOptions($row,$rows);
 
-                 //dd($ids);
 
-                $catehoryId = $this->getCategoryId($row['type'] ?? 'Demo category 1');
-                $brand_id = $this->getVendorId($row['vendor'] ?? 'Demo brand');
+                $catehoryId = $this->getCategoryId($row['vendor'] ?? 'Demo brand');
+                $brand_id = $this->getVendorId($row['type'] ?? 'Demo category 1');
                 $productId = Product::create([
                             'name' => $row['title'],
                             'description' => $row['body_html'],
@@ -74,8 +75,11 @@ class SkProductsImport implements ToCollection, WithHeadingRow, WithValidation, 
                             'meta_title' => '',
                             'meta_description' => '',
                             'colors' => json_encode(array()),
-                            'choice_options' => json_encode(array()),
-                            'variations' =>  json_encode($productOptions),
+                            'variations' => json_encode(array()),
+
+                            //'choice_options' =>  json_encode([]),
+                            'choice_options' =>  json_encode($productOptions),
+
                             'slug' => preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', strtolower($row['title']))) . '-' . Str::random(5),
                             'thumbnail_img' => $this->downloadThumbnail($row['image_src']),
                             'photos' => $this->downloadGalleryImages($arrarr_images),
@@ -83,12 +87,27 @@ class SkProductsImport implements ToCollection, WithHeadingRow, WithValidation, 
                 $productId->attributes = json_encode($attribute_ids);
                 $productId->variant_product = count($attribute_ids) > 0 ? 1 : 0;
                 $productId->save();
-                ProductStock::create([
-                    'product_id' => $productId->id,
-                    'qty' => 1000,
-                    'price' => $row['variant_price'],
-                    'variant' => '',
-                ]);
+                if(count($productOptions)){
+                    foreach($productOptions as $po){
+                        foreach($po['values'] as $val){
+                            ProductStock::create([
+                                'product_id' => $productId->id,
+                                'qty' => 1000,
+                                'price' => $row['variant_price'],
+                                'variant' => $val,
+                            ]);
+                        }
+                    }
+
+                }else{
+                    ProductStock::create([
+                        'product_id' => $productId->id,
+                        'qty' => 1000,
+                        'price' => $row['variant_price'],
+                        'variant' => '',
+                    ]);
+                }
+
             }
 
             flash(translate('Products imported successfully'))->success();
@@ -231,7 +250,11 @@ class SkProductsImport implements ToCollection, WithHeadingRow, WithValidation, 
         ->whereNotNull('option1_name')
         ->whereNotNull('option1_value');
         if(count($data)){
+            $option  = [] ;
             foreach($data as $op){
+                if($op['option1_name'] == 'Title'){
+                    continue;
+                }
                 $attribute = Attribute::query()->where('name',$op['option1_name'])->first();
 
                     $attribute_value = AttributeValue::query()
@@ -246,10 +269,8 @@ class SkProductsImport implements ToCollection, WithHeadingRow, WithValidation, 
                     }
 
 
-                $option[$attribute->id] = ['attribute_id'=>$attribute->id,'values'=>$attribute_value->id]; $attribute_value = AttributeValue::query()
-                ->where('attribute_id',$attribute->id)
-                ->where('value',ucfirst($op['option1_value']))
-                ->first();
+                $option[$attribute->id] = ['attribute_id'=>$attribute->id,'values'=>$attribute_value->value];
+
 
 
             }
@@ -261,11 +282,10 @@ class SkProductsImport implements ToCollection, WithHeadingRow, WithValidation, 
                 $ids = array_push($ids,$i);
                 $result[] = [
                     'attribute_id'=>$i,
-                    'values'=> implode(",",$x_option->where('attribute_id',$i)->pluck('values')->toArray()),
+                    'values'=> $x_option->where('attribute_id',$i)->pluck('values')->toArray(),
                 ];
             }
             $result = collect($result);
-            //dd( array_unique($result->pluck('attribute_id')->toArray()));
 
             return [
                 array_unique($result->pluck('attribute_id')->toArray()),
