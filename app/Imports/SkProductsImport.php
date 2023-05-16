@@ -44,7 +44,6 @@ class SkProductsImport implements ToCollection, WithHeadingRow, WithValidation, 
 
         if($canImport) {
             foreach ($single_products as $key => $row) {
-                dd($row);
                 $arrarr_images = $rows->where('handle',$row['handle'])->whereNotNull('image_src')->pluck('image_src')->toArray();
                 $arrarr_option1_name = $rows->where('handle',$row['handle'])
                 ->whereNotNull('option1_name')
