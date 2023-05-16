@@ -91,10 +91,11 @@ class SkProductsImport implements ToCollection, WithHeadingRow, WithValidation, 
                     foreach($productOptions as $po){
 
                         foreach($po['values'] as $val){
+
                            $ps =  ProductStock::create([
                                 'product_id' => $productId->id,
                                 'qty' => 1000,
-                                'price' => $row['variant_price'],
+                                'price' => str_replace(' ', '', $row['variant_price']),
                                 'variant' => $val,
                             ]);
                         }
