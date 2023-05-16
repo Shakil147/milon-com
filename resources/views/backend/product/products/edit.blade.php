@@ -1,15 +1,3 @@
-
-    @foreach (json_decode($product->choice_options) as $key => $choice_option)
-                @foreach (\App\Models\AttributeValue::where('attribute_id', $choice_option->attribute_id)->get() as $row)
-                @dd($row->value, $choice_option->values,$key , $choice_option)
-                <option value="{{ $row->value }}" @if( in_array($row->value, $choice_option->values)) selected @endif>
-                    {{ $row->value }}
-                </option>
-
-                @endforeach
-
-    @endforeach
-
 @extends('backend.layouts.app')
 
 @section('content')
