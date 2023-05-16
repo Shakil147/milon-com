@@ -44,6 +44,7 @@ class SkProductsImport implements ToCollection, WithHeadingRow, WithValidation, 
 
         if($canImport) {
             foreach ($single_products as $key => $row) {
+                dd($row);
                 $arrarr_images = $rows->where('handle',$row['handle'])->whereNotNull('image_src')->pluck('image_src')->toArray();
                 $arrarr_option1_name = $rows->where('handle',$row['handle'])
                 ->whereNotNull('option1_name')
@@ -76,10 +77,8 @@ class SkProductsImport implements ToCollection, WithHeadingRow, WithValidation, 
                             'meta_description' => '',
                             'colors' => json_encode(array()),
                             'variations' => json_encode(array()),
-
-                            //'choice_options' =>  json_encode([]),
+                            'tags' => $row['tags'],
                             'choice_options' =>  json_encode($productOptions),
-
                             'slug' => preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', strtolower($row['title']))) . '-' . Str::random(5),
                             'thumbnail_img' => $this->downloadThumbnail($row['image_src']),
                             'photos' => $this->downloadGalleryImages($arrarr_images),
@@ -95,8 +94,8 @@ class SkProductsImport implements ToCollection, WithHeadingRow, WithValidation, 
                            $ps =  ProductStock::create([
                                 'product_id' => $productId->id,
                                 'qty' => 1000,
-                                'price' => str_replace(' ', '', $row['variant_price']),
-                                'variant' => $val,
+                                'price' => $row['variant_price'],
+                                'variant' => str_replace(' ', '',$val),
                             ]);
                         }
                     }
