@@ -368,33 +368,33 @@
 
 
 
-                            <div class="d-table width-100 mt-3">
-                                <div class="d-table-cell">
+                            <!--<div class="d-table width-100 mt-3">-->
+                            <!--    <div class="d-table-cell">-->
                                     <!-- Add to wishlist button -->
-                                    <button type="button" class="btn pl-0 btn-link fw-600" onclick="addToWishList({{ $detailedProduct->id }})">
-                                        {{ translate('Add to wishlist')}}
-                                    </button>
+                            <!--        <button type="button" class="btn pl-0 btn-link fw-600" onclick="addToWishList({{ $detailedProduct->id }})">-->
+                            <!--            {{ translate('Add to wishlist')}}-->
+                            <!--        </button>-->
                                     <!-- Add to compare button -->
-                                    <button type="button" class="btn btn-link btn-icon-left fw-600" onclick="addToCompare({{ $detailedProduct->id }})">
-                                        {{ translate('Add to compare')}}
-                                    </button>
-                                    @if(Auth::check() && addon_is_activated('affiliate_system') && (\App\Models\AffiliateOption::where('type', 'product_sharing')->first()->status || \App\Models\AffiliateOption::where('type', 'category_wise_affiliate')->first()->status) && Auth::user()->affiliate_user != null && Auth::user()->affiliate_user->status)
-                                        @php
-                                            if(Auth::check()){
-                                                if(Auth::user()->referral_code == null){
-                                                    Auth::user()->referral_code = substr(Auth::user()->id.Str::random(10), 0, 10);
-                                                    Auth::user()->save();
-                                                }
-                                                $referral_code = Auth::user()->referral_code;
-                                                $referral_code_url = URL::to('/product').'/'.$detailedProduct->slug."?product_referral_code=$referral_code";
-                                            }
-                                        @endphp
-                                        <div>
-                                            <button type=button id="ref-cpurl-btn" class="btn btn-sm btn-secondary" data-attrcpy="{{ translate('Copied')}}" onclick="CopyToClipboard(this)" data-url="{{$referral_code_url}}">{{ translate('Copy the Promote Link')}}</button>
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
+                            <!--        <button type="button" class="btn btn-link btn-icon-left fw-600" onclick="addToCompare({{ $detailedProduct->id }})">-->
+                            <!--            {{ translate('Add to compare')}}-->
+                            <!--        </button>-->
+                            <!--        @if(Auth::check() && addon_is_activated('affiliate_system') && (\App\Models\AffiliateOption::where('type', 'product_sharing')->first()->status || \App\Models\AffiliateOption::where('type', 'category_wise_affiliate')->first()->status) && Auth::user()->affiliate_user != null && Auth::user()->affiliate_user->status)-->
+                            <!--            @php-->
+                            <!--                if(Auth::check()){-->
+                            <!--                    if(Auth::user()->referral_code == null){-->
+                            <!--                        Auth::user()->referral_code = substr(Auth::user()->id.Str::random(10), 0, 10);-->
+                            <!--                        Auth::user()->save();-->
+                            <!--                    }-->
+                            <!--                    $referral_code = Auth::user()->referral_code;-->
+                            <!--                    $referral_code_url = URL::to('/product').'/'.$detailedProduct->slug."?product_referral_code=$referral_code";-->
+                            <!--                }-->
+                            <!--            @endphp-->
+                            <!--            <div>-->
+                            <!--                <button type=button id="ref-cpurl-btn" class="btn btn-sm btn-secondary" data-attrcpy="{{ translate('Copied')}}" onclick="CopyToClipboard(this)" data-url="{{$referral_code_url}}">{{ translate('Copy the Promote Link')}}</button>-->
+                            <!--            </div>-->
+                            <!--        @endif-->
+                            <!--    </div>-->
+                            <!--</div>-->
 
 
                             @php

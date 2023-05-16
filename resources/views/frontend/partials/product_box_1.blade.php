@@ -1,11 +1,11 @@
-<div class="aiz-card-box border border-light rounded hov-shadow-md mt-1 mb-2 has-transition bg-white">
+<div class="aiz-card-box rounded shadow-lg hov-shadow-md mt-3 mb-3 has-transition bg-white">
     @if(discount_in_percentage($product) > 0)
         <span class="badge-custom">{{ translate('OFF') }}<span class="box ml-1 mr-0">&nbsp;{{discount_in_percentage($product)}}%</span></span>
     @endif
     <div class="position-relative">
         <a href="{{ route('product', $product->slug) }}" class="d-block">
             <img
-                class="img-fit lazyload mx-auto h-140px h-md-210px"
+                class="img-fit lazyload mx-auto h-150px h-md-300px"
                 src="{{ static_asset('assets/img/placeholder.jpg') }}"
                 data-src="{{ uploaded_asset($product->thumbnail_img) }}"
                 alt="{{  $product->getTranslation('name')  }}"
@@ -18,28 +18,28 @@
             </span>
         @endif
         <div class="absolute-top-right aiz-p-hov-icon">
-            <a href="javascript:void(0)" onclick="addToWishList({{ $product->id }})" data-toggle="tooltip" data-title="{{ translate('Add to wishlist') }}" data-placement="left">
-                <i class="la la-heart-o"></i>
-            </a>
-            <a href="javascript:void(0)" onclick="addToCompare({{ $product->id }})" data-toggle="tooltip" data-title="{{ translate('Add to compare') }}" data-placement="left">
-                <i class="las la-sync"></i>
-            </a>
+            <!--<a href="javascript:void(0)" onclick="addToWishList({{ $product->id }})" data-toggle="tooltip" data-title="{{ translate('Add to wishlist') }}" data-placement="left">-->
+            <!--    <i class="la la-heart-o"></i>-->
+            <!--</a>-->
+            <!--<a href="javascript:void(0)" onclick="addToCompare({{ $product->id }})" data-toggle="tooltip" data-title="{{ translate('Add to compare') }}" data-placement="left">-->
+            <!--    <i class="las la-sync"></i>-->
+            <!--</a>-->
             <a href="javascript:void(0)" onclick="showAddToCartModal({{ $product->id }})" data-toggle="tooltip" data-title="{{ translate('Add to cart') }}" data-placement="left">
                 <i class="las la-shopping-cart"></i>
             </a>
         </div>
     </div>
     <div class="p-md-3 p-2 text-left">
-        <div class="fs-15">
+        <div class="fs-17 text-center">
             @if(home_base_price($product) != home_discounted_base_price($product))
                 <del class="fw-600 opacity-50 mr-1">{{ home_base_price($product) }}</del>
             @endif
             <span class="fw-700 text-primary">{{ home_discounted_base_price($product) }}</span>
         </div>
-        <div class="rating rating-sm mt-1">
+        <div class="rating rating-sm mt-1 text-center">
             {{ renderStarRating($product->rating) }}
         </div>
-        <h3 class="fw-600 fs-13 text-truncate-2 lh-1-4 mb-0 h-35px">
+        <h3 class="fw-600 fs-14 text-truncate-2 lh-1-4 mb-0 h-35px text-center">
             <a href="{{ route('product', $product->slug) }}" class="d-block text-reset">{{  $product->getTranslation('name')  }}</a>
         </h3>
         @if (addon_is_activated('club_point'))

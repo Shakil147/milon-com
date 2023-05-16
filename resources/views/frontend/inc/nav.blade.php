@@ -9,7 +9,7 @@
 </div>
 @endif
 <!-- Top Bar -->
-<div class="top-navbar bg-white border-bottom border-soft-secondary z-1035">
+<div class="top-navbar border-bottom border-soft-secondary z-1035" style="background:#e9e9e9">
     <div class="container">
         <div class="row">
             <div class="col-lg-7 col">
@@ -51,7 +51,7 @@
                                 $currency_code = \App\Models\Currency::findOrFail(get_setting('system_default_currency'))->code;
                             }
                         @endphp
-                        <a href="javascript:void(0)" class="dropdown-toggle text-reset py-2 opacity-60" data-toggle="dropdown" data-display="static">
+                        <a href="javascript:void(0)" class="dropdown-toggle text-reset py-2" data-toggle="dropdown" data-display="static">
                             {{ \App\Models\Currency::where('code', $currency_code)->first()->name }} {{ (\App\Models\Currency::where('code', $currency_code)->first()->symbol) }}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left">
@@ -69,8 +69,8 @@
             <div class="col-5 text-right d-none d-lg-block">
                 <ul class="list-inline mb-0 h-100 d-flex justify-content-end align-items-center">
                     @if (get_setting('helpline_number'))
-                        <li class="list-inline-item mr-3 border-right border-left-0 pr-3 pl-0">
-                            <a href="tel:{{ get_setting('helpline_number') }}" class="text-reset d-inline-block opacity-60 py-2">
+                        <li class="list-inline-item mr-3 border-right border-left-0 pr-3 pl-0" style="border-color:#d1d1d1!important">
+                            <a href="tel:{{ get_setting('helpline_number') }}" class="text-reset d-inline-block py-2 fw-600">
                                 <i class="la la-phone"></i>
                                 <span>{{ translate('Help line')}}</span>  
                                 <span>{{ get_setting('helpline_number') }}</span>    
@@ -79,8 +79,8 @@
                     @endif
                     @auth
                         @if(isAdmin())
-                            <li class="list-inline-item mr-3 border-right border-left-0 pr-3 pl-0">
-                                <a href="{{ route('admin.dashboard') }}" class="text-reset d-inline-block opacity-60 py-2">{{ translate('My Panel')}}</a>
+                            <li class="list-inline-item mr-3 border-right border-left-0 pr-3 pl-0" style="border-color:#d1d1d1!important">
+                                <a href="{{ route('admin.dashboard') }}" class="text-reset d-inline-block py-2 fw-600">{{ translate('My Panel')}}</a>
                             </li>
                         @else
 
@@ -144,19 +144,19 @@
                                 </div>
                             </li>
 
-                            <li class="list-inline-item mr-3 border-right border-left-0 pr-3 pl-0">
-                                <a href="{{ route('dashboard') }}" class="text-reset d-inline-block opacity-60 py-2">{{ translate('My Panel')}}</a>
+                            <li class="list-inline-item mr-3 border-right border-left-0 pr-3 pl-0" style="border-color:#d1d1d1!important">
+                                <a href="{{ route('dashboard') }}" class="text-reset d-inline-block py-2 fw-600">{{ translate('My Panel')}}</a>
                             </li>
                         @endif
                         <li class="list-inline-item">
-                            <a href="{{ route('logout') }}" class="text-reset d-inline-block opacity-60 py-2">{{ translate('Logout')}}</a>
+                            <a href="{{ route('logout') }}" class="text-reset d-inline-block py-2 fw-600">{{ translate('Logout')}}</a>
                         </li>
                     @else
-                        <li class="list-inline-item mr-3 border-right border-left-0 pr-3 pl-0">
-                            <a href="{{ route('user.login') }}" class="text-reset d-inline-block opacity-60 py-2">{{ translate('Login')}}</a>
+                        <li class="list-inline-item mr-3 border-right border-left-0 pr-3 pl-0" style="border-color:#d1d1d1!important">
+                            <a href="{{ route('user.login') }}" class="text-reset d-inline-block py-2 fw-600">{{ translate('Login')}}</a>
                         </li>
                         <li class="list-inline-item">
-                            <a href="{{ route('user.registration') }}" class="text-reset d-inline-block opacity-60 py-2">{{ translate('Registration')}}</a>
+                            <a href="{{ route('user.registration') }}" class="text-reset d-inline-block py-2 fw-600">{{ translate('Registration')}}</a>
                         </li>
                     @endauth
                 </ul>
@@ -165,7 +165,7 @@
     </div>
 </div>
 <!-- END Top Bar -->
-<header class="@if(get_setting('header_stikcy') == 'on') sticky-top @endif z-1020 bg-white border-bottom shadow-sm">
+<header class="@if(get_setting('header_stikcy') == 'on') sticky-top @endif z-1020 bg-white shadow-sm">
     <div class="position-relative logo-bar-area z-1">
         <div class="container">
             <div class="d-flex align-items-center">
@@ -182,15 +182,15 @@
                         @endif
                     </a>
 
-                    @if(Route::currentRouteName() != 'home')
-                        <div class="d-none d-xl-block align-self-stretch category-menu-icon-box ml-auto mr-0">
-                            <div class="h-100 d-flex align-items-center" id="category-menu-icon">
-                                <div class="dropdown-toggle navbar-light bg-light h-40px w-50px pl-2 rounded border c-pointer">
-                                    <span class="navbar-toggler-icon"></span>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
+                    <!--@if(Route::currentRouteName() != 'home')-->
+                    <!--    <div class="d-none d-xl-block align-self-stretch category-menu-icon-box ml-auto mr-0">-->
+                    <!--        <div class="h-100 d-flex align-items-center" id="category-menu-icon">-->
+                    <!--            <div class="dropdown-toggle navbar-light bg-light h-40px w-50px pl-2 rounded border c-pointer">-->
+                    <!--                <span class="navbar-toggler-icon"></span>-->
+                    <!--            </div>-->
+                    <!--        </div>-->
+                    <!--    </div>-->
+                    <!--@endif-->
                 </div>
                 <div class="d-lg-none ml-auto mr-0">
                     <a class="p-2 d-block text-reset" href="javascript:void(0);" data-toggle="class-toggle" data-target=".front-header-search">
@@ -205,15 +205,14 @@
                                 <div class="d-lg-none" data-toggle="class-toggle" data-target=".front-header-search">
                                     <button class="btn px-2" type="button"><i class="la la-2x la-long-arrow-left"></i></button>
                                 </div>
-                                <div class="input-group">
-                                    <input type="text" class="border-0 border-lg form-control" id="search" name="keyword" @isset($query)
+                                <div class="input-group position-relative">
+                                    <input type="text" class="border-0 border-lg form-control px-4" 
+                                        style="height: 54px;border-radius: 54px;font-size: 15px;" id="search" name="keyword" placeholder="I am looking for...." @isset($query)
                                         value="{{ $query }}"
                                     @endisset placeholder="{{translate('I am shopping for...')}}" autocomplete="off">
-                                    <div class="input-group-append d-none d-lg-block">
-                                        <button class="btn btn-primary" type="submit">
-                                            <i class="la la-search la-flip-horizontal fs-18"></i>
-                                        </button>
-                                    </div>
+                                    <button class="btn btn-primary position-absolute p-0" type="submit" style="right:4px;height:46px;border-radius:45px;width:46px;top:4px;background:#e1e1e1;border:0;">
+                                        <i class="la la-search la-flip-horizontal" style="font-size:29px;color:#000;font-weight:900;line-height:48px;"></i>
+                                    </button>
                                 </div>
                             </div>
                         </form>
@@ -239,17 +238,17 @@
                     </div>
                 </div>
 
-                <div class="d-none d-lg-block ml-3 mr-0">
-                    <div class="" id="compare">
-                        @include('frontend.partials.compare')
-                    </div>
-                </div>
+                <!--<div class="d-none d-lg-block ml-3 mr-0">-->
+                <!--    <div class="" id="compare">-->
+                <!--        @include('frontend.partials.compare')-->
+                <!--    </div>-->
+                <!--</div>-->
 
-                <div class="d-none d-lg-block ml-3 mr-0">
-                    <div class="" id="wishlist">
-                        @include('frontend.partials.wishlist')
-                    </div>
-                </div>
+                <!--<div class="d-none d-lg-block ml-3 mr-0">-->
+                <!--    <div class="" id="wishlist">-->
+                <!--        @include('frontend.partials.wishlist')-->
+                <!--    </div>-->
+                <!--</div>-->
 
                 <div class="d-none d-lg-block  align-self-stretch ml-3 mr-0" data-hover="dropdown">
                     <div class="nav-cart-box dropdown h-100" id="cart_items">
@@ -272,12 +271,12 @@
         @endif
     </div>
     @if ( get_setting('header_menu_labels') !=  null )
-        <div class="bg-white border-top border-gray-200 py-1">
+        <div class="border-top border-gray-200 py-1" style="background:#399735">
             <div class="container">
                 <ul class="list-inline mb-0 pl-0 mobile-hor-swipe text-center">
                     @foreach (json_decode( get_setting('header_menu_labels'), true) as $key => $value)
                     <li class="list-inline-item mr-0">
-                        <a href="{{ json_decode( get_setting('header_menu_links'), true)[$key] }}" class="opacity-60 fs-14 px-3 py-2 d-inline-block fw-600 hov-opacity-100 text-reset">
+                        <a href="{{ json_decode( get_setting('header_menu_links'), true)[$key] }}" class="fs-15 px-4 py-2 d-inline-block fw-500 hov-opacity-300 text-reset text-uppercase" style="color:#fff!important">
                             {{ translate($value) }}
                         </a>
                     </li>

@@ -1,1 +1,5 @@
 /*your custom css goes here*/
+
+.products-box-home .row .col-sm-6{
+    width: 50%!important;
+}
