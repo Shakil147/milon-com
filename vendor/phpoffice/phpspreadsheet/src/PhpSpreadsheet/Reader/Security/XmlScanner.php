@@ -113,21 +113,33 @@ class XmlScanner
      */
     private function toUtf8($xml)
     {
-        $pattern = '/encoding="(.*?)"/';
-        $result = preg_match($pattern, $xml, $matches);
-        $charset = strtoupper($result ? $matches[1] : 'UTF-8');
-
+        $charset = $this->findCharSet($xml);
         if ($charset !== 'UTF-8') {
             $xml = self::forceString(mb_convert_encoding($xml, 'UTF-8', $charset));
 
-            $result = preg_match($pattern, $xml, $matches);
-            $charset = strtoupper($result ? $matches[1] : 'UTF-8');
+            $charset = $this->findCharSet($xml);
             if ($charset !== 'UTF-8') {
                 throw new Reader\Exception('Suspicious Double-encoded XML, spreadsheet file load() aborted to prevent XXE/XEE attacks');
             }
         }
 
         return $xml;
+    }
+
+    private function findCharSet(string $xml): string
+    {
+        $patterns = [
+            '/encoding\\s*=\\s*"([^"]*]?)"/',
+            "/encoding\\s*=\\s*'([^']*?)'/",
+        ];
+
+        foreach ($patterns as $pattern) {
+            if (preg_match($pattern, $xml, $matches)) {
+                return strtoupper($matches[1]);
+            }
+        }
+
+        return 'UTF-8';
     }
 
     /**
@@ -151,7 +163,7 @@ class XmlScanner
             throw new Reader\Exception('Detected use of ENTITY in XML, spreadsheet file load() aborted to prevent XXE/XEE attacks');
         }
 
-        if ($this->callback !== null && is_callable($this->callback)) {
+        if ($this->callback !== null) {
             $xml = call_user_func($this->callback, $xml);
         }
 

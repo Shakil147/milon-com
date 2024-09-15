@@ -18,7 +18,7 @@ npm-debug.log
 yarn-error.log
 .DS_Store
 .idea/
-
+vendor/
 updates/
 composer.lock
 *.lock

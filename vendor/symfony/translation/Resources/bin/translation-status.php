@@ -66,7 +66,7 @@ foreach (array_slice($argv, 1) as $argumentOrOption) {
         continue;
     }
 
-    if (str_starts_with($argumentOrOption, '-')) {
+    if (0 === strpos($argumentOrOption, '-')) {
         $config['verbose_output'] = true;
     } else {
         $config['locale_to_analyze'] = $argumentOrOption;
@@ -166,11 +166,11 @@ function extractLocaleFromFilePath($filePath)
 function extractTranslationKeys($filePath)
 {
     $translationKeys = [];
-    $contents = new \SimpleXMLElement(file_get_contents($filePath));
+    $contents = new SimpleXMLElement(file_get_contents($filePath));
 
     foreach ($contents->file->body->{'trans-unit'} as $translationKey) {
         $translationId = (string) $translationKey['id'];
-        $translationKey = (string) $translationKey->source;
+        $translationKey = (string) ($translationKey['resname'] ?? $translationKey->source);
 
         $translationKeys[$translationId] = $translationKey;
     }
