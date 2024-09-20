@@ -180,9 +180,9 @@
                                             <div class="fs-20 opacity-60">
                                                 <del>
                                                     {{ home_price($detailedProduct) }}
-                                                    @if($detailedProduct->unit != null)
-                                                        <span>/{{ $detailedProduct->getTranslation('unit') }}</span>
-                                                    @endif
+                                                    <!--@if($detailedProduct->unit != null)-->
+                                                    <!--    <span>/{{ $detailedProduct->getTranslation('unit') }}</span>-->
+                                                    <!--@endif-->
                                                 </del>
                                             </div>
                                         </div>
@@ -197,9 +197,9 @@
                                                 <strong class="h2 fw-600 text-primary">
                                                     {{ home_discounted_price($detailedProduct) }}
                                                 </strong>
-                                                @if($detailedProduct->unit != null)
-                                                    <span class="opacity-70">/{{ $detailedProduct->getTranslation('unit') }}</span>
-                                                @endif
+                                                <!--@if($detailedProduct->unit != null)-->
+                                                <!--    <span class="opacity-70">/{{ $detailedProduct->getTranslation('unit') }}</span>-->
+                                                <!--@endif-->
                                             </div>
                                         </div>
                                     </div>

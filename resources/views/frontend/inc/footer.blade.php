@@ -44,7 +44,7 @@
                     <div class="my-3">
                         {!! get_setting('about_us_description',null,App::getLocale()) !!}
                     </div>
-                    <div class="d-inline-block d-md-block mb-4">
+                    <div class="ftr-form-group d-inline-block d-md-block mb-4">
                         <form class="form-inline" method="POST" action="{{ route('subscribers.store') }}">
                             @csrf
                             <div class="form-group mb-0">
@@ -55,18 +55,49 @@
                             </button>
                         </form>
                     </div>
-                    <div class="w-300px mw-100 mx-auto mx-md-0">
-                        @if(get_setting('play_store_link') != null)
-                            <a href="{{ get_setting('play_store_link') }}" target="_blank" class="d-inline-block mr-3 ml-0">
-                                <img src="{{ static_asset('assets/img/play.png') }}" class="mx-100 h-40px">
-                            </a>
-                        @endif
-                        @if(get_setting('app_store_link') != null)
-                            <a href="{{ get_setting('app_store_link') }}" target="_blank" class="d-inline-block">
-                                <img src="{{ static_asset('assets/img/app.png') }}" class="mx-100 h-40px">
-                            </a>
+                    <div class='ftr-socail-icon text-left'>
+                        @if ( get_setting('show_social_links') )
+                        <ul class="list-inline my-3 my-md-0 social colored">
+                            @if ( get_setting('facebook_link') !=  null )
+                            <li class="list-inline-item">
+                                <a href="{{ get_setting('facebook_link') }}" target="_blank" class="facebook"><i class="lab la-facebook-f"></i></a>
+                            </li>
+                            @endif
+                            @if ( get_setting('twitter_link') !=  null )
+                            <li class="list-inline-item">
+                                <a href="{{ get_setting('twitter_link') }}" target="_blank" class="twitter"><i class="lab la-twitter"></i></a>
+                            </li>
+                            @endif
+                            @if ( get_setting('instagram_link') !=  null )
+                            <li class="list-inline-item">
+                                <a href="{{ get_setting('instagram_link') }}" target="_blank" class="instagram"><i class="lab la-instagram"></i></a>
+                            </li>
+                            @endif
+                            @if ( get_setting('youtube_link') !=  null )
+                            <li class="list-inline-item">
+                                <a href="{{ get_setting('youtube_link') }}" target="_blank" class="youtube"><i class="lab la-youtube"></i></a>
+                            </li>
+                            @endif
+                            @if ( get_setting('linkedin_link') !=  null )
+                            <li class="list-inline-item">
+                                <a href="{{ get_setting('linkedin_link') }}" target="_blank" class="linkedin"><i class="lab la-linkedin-in"></i></a>
+                            </li>
+                            @endif
+                        </ul>
                         @endif
                     </div>
+                    <!--<div class="w-300px mw-100 mx-auto mx-md-0">-->
+                    <!--    @if(get_setting('play_store_link') != null)-->
+                    <!--        <a href="{{ get_setting('play_store_link') }}" target="_blank" class="d-inline-block mr-3 ml-0">-->
+                    <!--            <img src="{{ static_asset('assets/img/play.png') }}" class="mx-100 h-40px">-->
+                    <!--        </a>-->
+                    <!--    @endif-->
+                    <!--    @if(get_setting('app_store_link') != null)-->
+                    <!--        <a href="{{ get_setting('app_store_link') }}" target="_blank" class="d-inline-block">-->
+                    <!--            <img src="{{ static_asset('assets/img/app.png') }}" class="mx-100 h-40px">-->
+                    <!--        </a>-->
+                    <!--    @endif-->
+                    <!--</div>-->
                 </div>
             </div>
             <div class="col-lg-3 ml-xl-auto col-md-4 mr-0">
@@ -171,43 +202,43 @@
 <footer class="pt-3 pb-7 pb-xl-3 bg-black text-light">
     <div class="container">
         <div class="row align-items-center">
-            <div class="col-lg-4">
+            <div class="col-lg-6">
                 <div class="text-center text-md-left" current-verison="{{get_setting("current_version")}}">
                     {!! get_setting('frontend_copyright_text',null,App::getLocale()) !!}
                 </div>
             </div>
-            <div class="col-lg-4">
-                @if ( get_setting('show_social_links') )
-                <ul class="list-inline my-3 my-md-0 social colored text-center">
-                    @if ( get_setting('facebook_link') !=  null )
-                    <li class="list-inline-item">
-                        <a href="{{ get_setting('facebook_link') }}" target="_blank" class="facebook"><i class="lab la-facebook-f"></i></a>
-                    </li>
-                    @endif
-                    @if ( get_setting('twitter_link') !=  null )
-                    <li class="list-inline-item">
-                        <a href="{{ get_setting('twitter_link') }}" target="_blank" class="twitter"><i class="lab la-twitter"></i></a>
-                    </li>
-                    @endif
-                    @if ( get_setting('instagram_link') !=  null )
-                    <li class="list-inline-item">
-                        <a href="{{ get_setting('instagram_link') }}" target="_blank" class="instagram"><i class="lab la-instagram"></i></a>
-                    </li>
-                    @endif
-                    @if ( get_setting('youtube_link') !=  null )
-                    <li class="list-inline-item">
-                        <a href="{{ get_setting('youtube_link') }}" target="_blank" class="youtube"><i class="lab la-youtube"></i></a>
-                    </li>
-                    @endif
-                    @if ( get_setting('linkedin_link') !=  null )
-                    <li class="list-inline-item">
-                        <a href="{{ get_setting('linkedin_link') }}" target="_blank" class="linkedin"><i class="lab la-linkedin-in"></i></a>
-                    </li>
-                    @endif
-                </ul>
-                @endif
-            </div>
-            <div class="col-lg-4">
+            <!--<div class="col-lg-4">-->
+            <!--    @if ( get_setting('show_social_links') )-->
+            <!--    <ul class="list-inline my-3 my-md-0 social colored text-center">-->
+            <!--        @if ( get_setting('facebook_link') !=  null )-->
+            <!--        <li class="list-inline-item">-->
+            <!--            <a href="{{ get_setting('facebook_link') }}" target="_blank" class="facebook"><i class="lab la-facebook-f"></i></a>-->
+            <!--        </li>-->
+            <!--        @endif-->
+            <!--        @if ( get_setting('twitter_link') !=  null )-->
+            <!--        <li class="list-inline-item">-->
+            <!--            <a href="{{ get_setting('twitter_link') }}" target="_blank" class="twitter"><i class="lab la-twitter"></i></a>-->
+            <!--        </li>-->
+            <!--        @endif-->
+            <!--        @if ( get_setting('instagram_link') !=  null )-->
+            <!--        <li class="list-inline-item">-->
+            <!--            <a href="{{ get_setting('instagram_link') }}" target="_blank" class="instagram"><i class="lab la-instagram"></i></a>-->
+            <!--        </li>-->
+            <!--        @endif-->
+            <!--        @if ( get_setting('youtube_link') !=  null )-->
+            <!--        <li class="list-inline-item">-->
+            <!--            <a href="{{ get_setting('youtube_link') }}" target="_blank" class="youtube"><i class="lab la-youtube"></i></a>-->
+            <!--        </li>-->
+            <!--        @endif-->
+            <!--        @if ( get_setting('linkedin_link') !=  null )-->
+            <!--        <li class="list-inline-item">-->
+            <!--            <a href="{{ get_setting('linkedin_link') }}" target="_blank" class="linkedin"><i class="lab la-linkedin-in"></i></a>-->
+            <!--        </li>-->
+            <!--        @endif-->
+            <!--    </ul>-->
+            <!--    @endif-->
+            <!--</div>-->
+            <div class="col-lg-6">
                 <div class="text-center text-md-right">
                     <ul class="list-inline mb-0">
                         @if ( get_setting('payment_method_images') !=  null )

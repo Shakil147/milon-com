@@ -1831,6 +1831,12 @@ $.fn.toggleAttr = function (attr, attr1, attr2) {
             });
         }
     };
+    
+      $('.xs-nav-opener .xs-nav-opener-innr').on('click', function(){
+        $(this).toggleClass('menu-expend');
+        $('.main-nav').slideToggle(500);
+        $('.hdr-btm-menu').toggleClass('hdr-menu-con-height');
+      });
 
     setInterval(function(){
         AIZ.extra.refreshToken();
