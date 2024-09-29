@@ -27,8 +27,16 @@ class BkashController extends Controller
         $amount = 0;
         if(Session::has('payment_type')){
             if(Session::get('payment_type') == 'cart_payment'){
+
+                // dd(request()->all(),"shakil");
                 $combined_order = CombinedOrder::findOrFail(Session::get('combined_order_id'));
-                $amount = round($combined_order->grand_total);
+                // dd($combined_order);
+                if(request("payment_option") == "bkash_delevery_charge"){
+                    $amount = round(request("bkash_delevery_charge"));
+                }else{
+                    $amount = round($combined_order->grand_total);
+                }
+
             }
             elseif (Session::get('payment_type') == 'wallet_payment') {
                 $amount = round(Session::get('payment_data')['amount']);
@@ -42,6 +50,7 @@ class BkashController extends Controller
                 $amount = round($seller_package->amount);
             }
         }
+
 
         // $request_data = array('app_key'=> env('BKASH_CHECKOUT_APP_KEY'), 'app_secret'=>env('BKASH_CHECKOUT_APP_SECRET'));
 
@@ -67,8 +76,8 @@ class BkashController extends Controller
 
         // Session::put('bkash_token', $token);
         Session::put('payment_amount', $amount);
-        
-        
+
+
         return view('bkash-payment');
 
         // return view('frontend.bkash.index');

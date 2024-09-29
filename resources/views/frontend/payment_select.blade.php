@@ -1,6 +1,46 @@
 @extends('frontend.layouts.app')
 
 @section('content')
+
+@php
+                    $subtotal = 0;
+                    $tax = 0;
+                    $shipping = 0;
+                    $product_shipping_cost = 0;
+                    $shipping_region = $shipping_info['city'];
+                @endphp
+                @foreach ($carts as $key => $cartItem)
+                    @php
+                        $product = \App\Models\Product::find($cartItem['product_id']);
+                        $subtotal += $cartItem['price'] * $cartItem['quantity'];
+                        $tax += $cartItem['tax'] * $cartItem['quantity'];
+                        $product_shipping_cost = $cartItem['shipping_cost'];
+
+                        $shipping += $product_shipping_cost;
+
+                        $product_name_with_choice = $product->getTranslation('name');
+                        if ($cartItem['variant'] != null) {
+                            $product_name_with_choice = $product->getTranslation('name').' - '.$cartItem['variant'];
+                        }
+                    @endphp
+                    {{--  <tr class="cart_item">
+                        <td class="product-name">
+                            {{ $product_name_with_choice }}
+                            <strong class="product-quantity">
+                                × {{ $cartItem['quantity'] }}
+                            </strong>
+                        </td>
+                        <td class="product-total text-right">
+                            <span class="pl-4 pr-0">{{ single_price($cartItem['price']*$cartItem['quantity']) }}</span>
+                        </td>
+                    </tr>  --}}
+                @endforeach
+                @php
+
+
+                $total = $subtotal+$tax+$shipping;
+                @endphp
+
 <section class="pt-5 mb-4">
     <div class="container">
         <div class="row">
@@ -48,6 +88,8 @@
                 <form action="{{ route('payment.checkout') }}" class="form-default" role="form" method="POST" id="checkout-form">
                     @csrf
                     <input type="hidden" name="owner_id" value="{{ $carts[0]['owner_id'] }}">
+                    <input type="hidden" name="bkash_full_payment" value="{{ $total }}">
+                    <input type="hidden" name="bkash_delevery_charge" value="{{ $shipping }}">
 
                     <div class="card shadow-sm border-0 rounded">
                         <div class="card-header p-3">
@@ -216,13 +258,40 @@
                                             </div>
                                         @endif
                                         @if(get_setting('bkash') == 1)
+
+
+                                        {{--  <div class="col-6 col-md-4">
+                                            <label class="aiz-megabox d-block mb-3">
+                                                <input value="bkash" class="online_payment" type="radio" name="payment_option" checked>
+                                                <span class="d-block p-3 aiz-megabox-elem">
+                                                    <img src="{{ static_asset('assets/img/cards/bkash.png')}}" class="img-fluid mb-2">
+                                                    <span class="d-block text-center">
+                                                        <span class="d-block fw-600 fs-15">{{ translate('Pay delivery charge only ') }} {{ single_price($shipping) }} {{ translate("With Bkash") }}</span>
+                                                    </span>
+                                                </span>
+                                            </label>
+                                        </div>  --}}
+
+
                                             <div class="col-6 col-md-4">
                                                 <label class="aiz-megabox d-block mb-3">
-                                                    <input value="bkash" class="online_payment" type="radio" name="payment_option" checked>
+                                                    <input value="bkash_delevery_charge" class="online_payment" type="radio" name="payment_option" checked>
                                                     <span class="d-block p-3 aiz-megabox-elem">
                                                         <img src="{{ static_asset('assets/img/cards/bkash.png')}}" class="img-fluid mb-2">
                                                         <span class="d-block text-center">
-                                                            <span class="d-block fw-600 fs-15">{{ translate('Bkash')}}</span>
+                                                            <span class="d-block fw-600 fs-15">{{ translate('Pay delivery charge only ') }} {{ single_price($shipping) }} {{ translate("With Bkash") }}</span>
+                                                        </span>
+                                                    </span>
+                                                </label>
+                                            </div>
+
+                                            <div class="col-6 col-md-4">
+                                                <label class="aiz-megabox d-block mb-3">
+                                                    <input value="bkash_full_payment" class="online_payment" type="radio" name="payment_option" checked>
+                                                    <span class="d-block p-3 aiz-megabox-elem">
+                                                        <img src="{{ static_asset('assets/img/cards/bkash.png')}}" class="img-fluid mb-2">
+                                                        <span class="d-block text-center">
+                                                            <span class="d-block fw-600 fs-15">{{ translate('Pay total amount') }} {{ single_price($total) }} {{ translate("With Bkash") }}</span>
                                                         </span>
                                                     </span>
                                                 </label>

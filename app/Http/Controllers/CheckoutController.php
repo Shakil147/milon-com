@@ -37,7 +37,7 @@ class CheckoutController extends Controller
             (new OrderController)->store($request);
 
             $request->session()->put('payment_type', 'cart_payment');
-            
+
             $data['combined_order_id'] = $request->session()->get('combined_order_id');
             $request->session()->put('payment_data', $data);
 
@@ -74,7 +74,9 @@ class CheckoutController extends Controller
                 } elseif ($request->payment_option == 'nagad') {
                     $nagad = new NagadController;
                     return $nagad->getSession();
-                } elseif ($request->payment_option == 'bkash') {
+                } elseif ($request->payment_option == 'bkash' || 1==1) {
+
+                    // dd($request->all());
                     $bkash = new BkashController;
                     return $bkash->pay();
                 } elseif ($request->payment_option == 'aamarpay') {
@@ -160,8 +162,9 @@ class CheckoutController extends Controller
 
         foreach ($combined_order->orders as $key => $order) {
             $order = Order::findOrFail($order->id);
-            $order->payment_status = 'paid';
-            $order->payment_details = $payment;
+            $order->payment_status = $combined_order->grand_total == $payment ?  'paid' : 'Delevery Charge Paid';
+            // $order->payment_details = $payment;
+            $order->payment_details = Session::get('payment_amount');
             $order->save();
 
             calculateCommissionAffilationClubPoint($order);
@@ -400,7 +403,7 @@ class CheckoutController extends Controller
 
         //Session::forget('club_point');
         //Session::forget('combined_order_id');
-        
+
         foreach($combined_order->orders as $order){
             NotificationUtility::sendOrderPlacedNotification($order);
         }

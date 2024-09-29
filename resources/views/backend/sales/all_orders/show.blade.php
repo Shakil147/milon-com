@@ -223,6 +223,16 @@
                             {{ single_price($order->grand_total) }}
                         </td>
                     </tr>
+                    @if($order->payment_details)
+                    <tr>
+                        <td>
+                            <strong class="text-muted">{{translate('Paid')}} :</strong>
+                        </td>
+                        <td class="text-muted h5">
+                            {{ single_price($order->payment_details) }}
+                        </td>
+                    </tr>
+                    @endif
                 </tbody>
             </table>
             <div class="text-right no-print">

@@ -152,6 +152,10 @@
                         <td>
                             @if ($order->payment_status == 'paid')
                             <span class="badge badge-inline badge-success">{{translate('Paid')}}</span>
+                            @elseif($order->payment_status == 'Delevery Charge Paid')
+                            <span class="badge badge-inline badge-info"> {{translate('Delevery Charge Paid')}}
+                                {{--  {{ single_price($order->payment_details) }}  --}}
+                            </span>
                             @else
                             <span class="badge badge-inline badge-danger">{{translate('Unpaid')}}</span>
                             @endif
