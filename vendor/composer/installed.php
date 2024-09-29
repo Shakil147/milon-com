@@ -3,7 +3,7 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '360a61fba5423931db8e82a3f5904029896eedea',
+        'reference' => '750a98d77463594a16d6b09da3a316012d9287de',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -613,6 +613,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'karim007/laravel-bkash' => array(
+            'pretty_version' => 'v2.0.0',
+            'version' => '2.0.0.0',
+            'reference' => '26d6a750304b55e4543d4a10d7ae9174cea1aebe',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../karim007/laravel-bkash',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'kingflamez/laravelrave' => array(
             'pretty_version' => 'v4.2.1',
             'version' => '4.2.1.0',
@@ -676,7 +685,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '360a61fba5423931db8e82a3f5904029896eedea',
+            'reference' => '750a98d77463594a16d6b09da3a316012d9287de',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -1285,8 +1294,8 @@
         'psr/log-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0|2.0',
-                1 => '1.0.0 || 2.0.0 || 3.0.0',
+                0 => '1.0.0 || 2.0.0 || 3.0.0',
+                1 => '1.0|2.0',
             ),
         ),
         'psr/simple-cache' => array(

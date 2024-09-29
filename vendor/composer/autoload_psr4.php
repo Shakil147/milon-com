@@ -98,6 +98,7 @@ return array(
     'Laracon21\\Combinations\\' => array($vendorDir . '/laracon21/combinations/src'),
     'Laracon21\\Colorcodeconverter\\' => array($vendorDir . '/laracon21/colorcodeconverter/src'),
     'KingFlamez\\Rave\\' => array($vendorDir . '/kingflamez/laravelrave/src'),
+    'Karim007\\LaravelBkash\\' => array($vendorDir . '/karim007/laravel-bkash/src'),
     'JmesPath\\' => array($vendorDir . '/mtdowling/jmespath.php/src'),
     'Iyzipay\\' => array($vendorDir . '/iyzico/iyzipay-php/src/Iyzipay'),
     'Intervention\\Image\\' => array($vendorDir . '/intervention/image/src/Intervention/Image'),

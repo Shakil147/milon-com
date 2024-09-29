@@ -15,12 +15,12 @@ class BkashController extends Controller
     private $base_url;
     public function __construct()
     {
-        if(get_setting('bkash_sandbox', 1)){
-            $this->base_url = "https://checkout.sandbox.bka.sh/v1.2.0-beta/";
-        }
-        else {
-            $this->base_url = "https://checkout.pay.bka.sh/v1.2.0-beta/";
-        }
+        // if(get_setting('bkash_sandbox', 1)){
+        //     $this->base_url = "https://checkout.sandbox.bka.sh/v1.2.0-beta/";
+        // }
+        // else {
+        //     $this->base_url = "https://checkout.pay.bka.sh/v1.2.0-beta/";
+        // }
     }
 
     public function pay(){
@@ -43,32 +43,35 @@ class BkashController extends Controller
             }
         }
 
-        $request_data = array('app_key'=> env('BKASH_CHECKOUT_APP_KEY'), 'app_secret'=>env('BKASH_CHECKOUT_APP_SECRET'));
+        // $request_data = array('app_key'=> env('BKASH_CHECKOUT_APP_KEY'), 'app_secret'=>env('BKASH_CHECKOUT_APP_SECRET'));
 
-        $url = curl_init($this->base_url.'checkout/token/grant');
-        $request_data_json=json_encode($request_data);
+        // $url = curl_init($this->base_url.'checkout/token/grant');
+        // $request_data_json=json_encode($request_data);
 
-        $header = array(
-                'Content-Type:application/json',
-                'username:'.env('BKASH_CHECKOUT_USER_NAME'),
-                'password:'.env('BKASH_CHECKOUT_PASSWORD')
-                );
-        curl_setopt($url,CURLOPT_HTTPHEADER, $header);
-        curl_setopt($url,CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($url,CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($url,CURLOPT_POSTFIELDS, $request_data_json);
-        curl_setopt($url,CURLOPT_FOLLOWLOCATION, 1);
-        curl_setopt($url, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+        // $header = array(
+        //         'Content-Type:application/json',
+        //         'username:'.env('BKASH_CHECKOUT_USER_NAME'),
+        //         'password:'.env('BKASH_CHECKOUT_PASSWORD')
+        //         );
+        // curl_setopt($url,CURLOPT_HTTPHEADER, $header);
+        // curl_setopt($url,CURLOPT_CUSTOMREQUEST, "POST");
+        // curl_setopt($url,CURLOPT_RETURNTRANSFER, true);
+        // curl_setopt($url,CURLOPT_POSTFIELDS, $request_data_json);
+        // curl_setopt($url,CURLOPT_FOLLOWLOCATION, 1);
+        // curl_setopt($url, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
 
-        $resultdata = curl_exec($url);
-        curl_close($url);
+        // $resultdata = curl_exec($url);
+        // curl_close($url);
 
-        $token = json_decode($resultdata)->id_token;
+        // $token = json_decode($resultdata)->id_token;
 
-        Session::put('bkash_token', $token);
+        // Session::put('bkash_token', $token);
         Session::put('payment_amount', $amount);
+        
+        
+        return view('bkash-payment');
 
-        return view('frontend.bkash.index');
+        // return view('frontend.bkash.index');
     }
 
     public function checkout(Request $request){

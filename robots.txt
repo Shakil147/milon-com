@@ -1,0 +1,12 @@
+User-agent: *
+Disallow: /cart/
+Disallow: /checkout/
+Disallow: /login/
+Disallow: /account/
+Disallow: /compare/
+Disallow: /search/
+Disallow: /*?sort=*
+Disallow: /*?filter=*
+Disallow: /*?search=*
+
+Sitemap: https://www.yellowgadgets.com/sitemap.xml

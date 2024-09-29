@@ -193,7 +193,7 @@
                                             <div class="opacity-50">{{ translate('Discount Price')}}:</div>
                                         </div>
                                         <div class="col-sm-10">
-                                            <div class="">
+                                            <div class="price-text-color">
                                                 <strong class="h2 fw-600 text-primary">
                                                     {{ home_discounted_price($detailedProduct) }}
                                                 </strong>
@@ -337,7 +337,7 @@
                                         <div class="opacity-50 my-2">{{ translate('Total Price')}}:</div>
                                     </div>
                                     <div class="col-sm-10">
-                                        <div class="product-price">
+                                        <div class="product-price price-text-color">
                                             <strong id="chosen_price" class="h4 fw-600 text-primary">
 
                                             </strong>

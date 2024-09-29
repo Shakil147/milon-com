@@ -19,6 +19,8 @@
 
 	<!-- google font -->
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700">
+	
+	<meta name="google-site-verification" content="kYkbj_YqtIhor6H0eRsXtgZEvlDV20uq122O-e_pR3E" />
 
 	<!-- aiz core css -->
 	<link rel="stylesheet" href="{{ static_asset('assets/css/vendors.css') }}">

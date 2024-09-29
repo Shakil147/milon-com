@@ -49,6 +49,9 @@
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&display=swap" rel="stylesheet">
+    
+    <meta name="google-site-verification" content="kYkbj_YqtIhor6H0eRsXtgZEvlDV20uq122O-e_pR3E" />
+    
 
     <!-- CSS Files -->
     <link rel="stylesheet" href="{{ static_asset('assets/css/vendors.css') }}">

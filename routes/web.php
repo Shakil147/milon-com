@@ -1,5 +1,7 @@
 <?php
 
+// use App\Http\Controllers\BkashController;
+
 /*
   |--------------------------------------------------------------------------
   | Web Routes
@@ -339,6 +341,22 @@ Route::any('ngenius/seller_package_payment_callback', 'NgeniusController@seller_
 Route::post('/bkash/createpayment', 'BkashController@checkout')->name('bkash.checkout');
 Route::post('/bkash/executepayment', 'BkashController@excecute')->name('bkash.excecute');
 Route::get('/bkash/success', 'BkashController@success')->name('bkash.success');
+
+Route::group(['middleware' => ['auth']], function () {
+
+    // Payment Routes for bKash
+    Route::get('/bkash/payment', "BkashPaymentController@index");
+    Route::post('/bkash/get-token', "BkashPaymentController@getToken")->name('bkash-get-token');
+    Route::post('/bkash/create-payment', "BkashPaymentController@createPayment")->name('bkash-create-payment');
+    Route::post('/bkash/execute-payment', "BkashPaymentController@executePayment")->name('bkash-execute-payment');
+    Route::get('/bkash/query-payment', "BkashPaymentController@queryPayment")->name('bkash-query-payment');
+    Route::post('/bkash/success', "BkashPaymentController@bkashSuccess")->name('bkash-success');
+
+    // Refund Routes for bKash
+    Route::get('/bkash/refund', "BkashPaymentController@refundPage")->name('bkash-refund');
+    Route::post('/bkash/refund', "BkashPaymentController@refund")->name('bkash-refund');
+
+});
 
 //Nagad
 Route::get('/nagad/callback', 'NagadController@verify')->name('nagad.callback');
