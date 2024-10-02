@@ -162,9 +162,12 @@ class CheckoutController extends Controller
 
         foreach ($combined_order->orders as $key => $order) {
             $order = Order::findOrFail($order->id);
-            $order->payment_status = $combined_order->grand_total == $payment ?  'paid' : 'Delevery Charge Paid';
+            $order->payment_status = $combined_order->grand_total == $payment ?  'paid' : 'Advance Paid';
             // $order->payment_details = $payment;
             $order->payment_details = Session::get('payment_amount');
+            // if($combined_order->grand_total != $payment){
+            //     $combined_order->grand_total -= $payment
+            // }
             $order->save();
 
             calculateCommissionAffilationClubPoint($order);

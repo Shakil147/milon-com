@@ -272,7 +272,7 @@
                                             </div>
                                             <div class="p-md-3 p-2 text-left">
                                                 <div class="fs-15 mb-1">
-                                                    <span class="fw-700 text-primary">{{ single_price($classified_product->unit_price) }}</span>
+                                                    <span class="fw-700 price-text-color">{{ single_price($classified_product->unit_price) }}</span>
                                                 </div>
                                                 <h3 class="fw-600 fs-13 text-truncate-2 lh-1-4 mb-0 h-35px">
                                                     <a href="{{ route('customer.product', $classified_product->slug) }}" class="d-block text-reset">{{ $classified_product->getTranslation('name') }}</a>

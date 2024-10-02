@@ -223,16 +223,22 @@
                             {{ single_price($order->grand_total) }}
                         </td>
                     </tr>
-                    @if($order->payment_details)
                     <tr>
                         <td>
                             <strong class="text-muted">{{translate('Paid')}} :</strong>
                         </td>
                         <td class="text-muted h5">
-                            {{ single_price($order->payment_details) }}
+                            {{ single_price($order->payment_details ?? 0) }}
                         </td>
                     </tr>
-                    @endif
+                    <tr>
+                        <td>
+                            <strong class="text-muted">{{translate('Due')}} :</strong>
+                        </td>
+                        <td class="text-muted h5">
+                            {{ single_price($order->grand_total - ($order->payment_details ?? 0)) }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="text-right no-print">

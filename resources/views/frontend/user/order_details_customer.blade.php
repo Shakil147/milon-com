@@ -219,6 +219,18 @@
                                     <strong><span>{{ single_price($order->grand_total) }}</span></strong>
                                 </td>
                             </tr>
+                            <tr>
+                                <td class="w-50 fw-600">{{ translate('Paid')}}</td>
+                                <td class="text-right">
+                                    <strong><span>{{ single_price($order->payment_details ?? 0) }}</span></strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="w-50 fw-600">{{ translate('Due')}}</td>
+                                <td class="text-right">
+                                    <strong><span>{{ single_price($order->grand_total - ($order->payment_details ?? 0)) }}</span></strong>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

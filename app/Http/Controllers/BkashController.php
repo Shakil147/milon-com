@@ -28,11 +28,9 @@ class BkashController extends Controller
         if(Session::has('payment_type')){
             if(Session::get('payment_type') == 'cart_payment'){
 
-                // dd(request()->all(),"shakil");
                 $combined_order = CombinedOrder::findOrFail(Session::get('combined_order_id'));
-                // dd($combined_order);
                 if(request("payment_option") == "bkash_delevery_charge"){
-                    $amount = round(request("bkash_delevery_charge"));
+                    $amount = round(200);
                 }else{
                     $amount = round($combined_order->grand_total);
                 }

@@ -701,6 +701,10 @@ fixed-bottom 1030*/
 .text-light { color: var(--light) !important; }
 .text-inherit { color: inherit !important; }
 
+.price-text-color{
+    color:#ff7701 !important;
+}
+
 .hov-text-primary:hover { color: var(--primary) !important; }
 .hov-text-soft-primary:hover { color: var(--soft-primary) !important; }
 .hov-text-secondary:hover { color: var(--secondary) !important; }
@@ -7411,7 +7415,7 @@ ul.social.colored [class*="linkedin"] {
     padding: 3px;
     font-size: 11px;
     border-radius: 0 50em 50em 0;
-    color: #ffc000;
+    color: #ff7701;
     font-weight: 600;
     line-height: 26px;
     position: absolute;

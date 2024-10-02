@@ -89,7 +89,7 @@
                     @csrf
                     <input type="hidden" name="owner_id" value="{{ $carts[0]['owner_id'] }}">
                     <input type="hidden" name="bkash_full_payment" value="{{ $total }}">
-                    <input type="hidden" name="bkash_delevery_charge" value="{{ $shipping }}">
+                    <input type="hidden" name="bkash_delevery_charge" value="200">
 
                     <div class="card shadow-sm border-0 rounded">
                         <div class="card-header p-3">
@@ -260,7 +260,7 @@
                                         @if(get_setting('bkash') == 1)
 
 
-                                        {{--  <div class="col-6 col-md-4">
+                                        {{--  <div class="col-6 col-md-6">
                                             <label class="aiz-megabox d-block mb-3">
                                                 <input value="bkash" class="online_payment" type="radio" name="payment_option" checked>
                                                 <span class="d-block p-3 aiz-megabox-elem">
@@ -273,25 +273,25 @@
                                         </div>  --}}
 
 
-                                            <div class="col-6 col-md-4">
+                                            <div class="col-6 col-md-6">
                                                 <label class="aiz-megabox d-block mb-3">
                                                     <input value="bkash_delevery_charge" class="online_payment" type="radio" name="payment_option" checked>
                                                     <span class="d-block p-3 aiz-megabox-elem">
                                                         <img src="{{ static_asset('assets/img/cards/bkash.png')}}" class="img-fluid mb-2">
                                                         <span class="d-block text-center">
-                                                            <span class="d-block fw-600 fs-15">{{ translate('Pay delivery charge only ') }} {{ single_price($shipping) }} {{ translate("With Bkash") }}</span>
+                                                            <span class="d-block fw-600 fs-15">{{ translate('Pay') }} {{ single_price(200) }} {{ translate("in advance") }}</span>
                                                         </span>
                                                     </span>
                                                 </label>
                                             </div>
 
-                                            <div class="col-6 col-md-4">
+                                            <div class="col-6 col-md-6">
                                                 <label class="aiz-megabox d-block mb-3">
                                                     <input value="bkash_full_payment" class="online_payment" type="radio" name="payment_option" checked>
                                                     <span class="d-block p-3 aiz-megabox-elem">
                                                         <img src="{{ static_asset('assets/img/cards/bkash.png')}}" class="img-fluid mb-2">
                                                         <span class="d-block text-center">
-                                                            <span class="d-block fw-600 fs-15">{{ translate('Pay total amount') }} {{ single_price($total) }} {{ translate("With Bkash") }}</span>
+                                                            <span class="d-block fw-600 fs-15">{{ translate('Pay') }} {{ single_price($total) }}</span>
                                                         </span>
                                                     </span>
                                                 </label>

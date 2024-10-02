@@ -179,12 +179,14 @@
 							            <th class="text-left strong">{{ translate('Grand Total') }}</th>
 							            <td class="currency">{{ single_price($order->grand_total) }}</td>
 							        </tr>
-                                    @if($order->payment_details)
 							        <tr>
 							            <th class="text-left strong">{{ translate('Paid') }}</th>
-							            <td class="currency">{{ single_price($order->payment_details) }}</td>
+							            <td class="currency">{{ single_price($order->payment_details ?? 0) }}</td>
 							        </tr>
-                                    @endif
+							        <tr>
+							            <th class="text-left strong">{{ translate('Due') }}</th>
+							            <td class="currency">{{ single_price($order->grand_total - ($order->payment_details ?? 0)) }}</td>
+							        </tr>
 						        </tbody>
 						    </table>
 			            </td>
