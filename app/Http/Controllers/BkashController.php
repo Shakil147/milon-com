@@ -10,6 +10,11 @@ use App\Models\BusinessSetting;
 use App\Models\Seller;
 use Session;
 
+use Exception;
+use IrfanChowdhury\BkashTokenizedCheckout\Http\Requests\SubmitRequest;
+use IrfanChowdhury\BkashTokenizedCheckout\Services\PaymentService;
+
+
 class BkashController extends Controller
 {
     private $base_url;
@@ -49,36 +54,67 @@ class BkashController extends Controller
             }
         }
 
-
-        // $request_data = array('app_key'=> env('BKASH_CHECKOUT_APP_KEY'), 'app_secret'=>env('BKASH_CHECKOUT_APP_SECRET'));
-
-        // $url = curl_init($this->base_url.'checkout/token/grant');
-        // $request_data_json=json_encode($request_data);
-
-        // $header = array(
-        //         'Content-Type:application/json',
-        //         'username:'.env('BKASH_CHECKOUT_USER_NAME'),
-        //         'password:'.env('BKASH_CHECKOUT_PASSWORD')
-        //         );
-        // curl_setopt($url,CURLOPT_HTTPHEADER, $header);
-        // curl_setopt($url,CURLOPT_CUSTOMREQUEST, "POST");
-        // curl_setopt($url,CURLOPT_RETURNTRANSFER, true);
-        // curl_setopt($url,CURLOPT_POSTFIELDS, $request_data_json);
-        // curl_setopt($url,CURLOPT_FOLLOWLOCATION, 1);
-        // curl_setopt($url, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
-
-        // $resultdata = curl_exec($url);
-        // curl_close($url);
-
-        // $token = json_decode($resultdata)->id_token;
-
-        // Session::put('bkash_token', $token);
         Session::put('payment_amount', $amount);
 
+        try {
+            $paymentService = new PaymentService();
+            $payment = $paymentService->initialize("bkash");
 
-        return view('bkash-payment');
+            $request = request();
+            $request->merge([
+                "amount"=>$amount
+            ]);
 
-        // return view('frontend.bkash.index');
+            return $payment->pay($request);
+        }
+        catch (Exception $e) {
+
+            return redirect()->back()->withErrors(['errors' => $e->getMessage()]);
+        }
+    }
+
+    public function bkashCallback(PaymentService $paymentService, Request $request)
+    {
+        try {
+            $payment = $paymentService->initialize('bkash');
+
+            $payment->paymentStatusCheck($request);
+
+            session()->put('paymentID', $request->paymentID);
+
+            // Implement your other business logic after payment done.
+
+
+            $pay_success = $request->payment_info['transactionStatus'];
+
+            $payment_type = Session::get('payment_type');
+
+            if ($payment_type == 'cart_payment') {
+                $checkoutController = new CheckoutController;
+                 $checkoutController->checkout_done(Session::get('combined_order_id'), $request->payment_details);
+            }
+
+            if ($payment_type == 'wallet_payment') {
+                $walletController = new WalletController;
+                 $walletController->wallet_payment_done(Session::get('payment_data'), $request->payment_details);
+            }
+
+            if ($payment_type == 'customer_package_payment') {
+                $customer_package_controller = new CustomerPackageController;
+                 $customer_package_controller->purchase_payment_done(Session::get('payment_data'), $request->payment_details);
+            }
+            if($payment_type == 'seller_package_payment') {
+                $seller_package_controller = new SellerPackageController;
+                 $seller_package_controller->purchase_payment_done(Session::get('payment_data'), $request->payment_details);
+            }
+
+
+            return redirect()->route('order_confirmed')->with(['success' => 'Payment Successfully Done']);
+        }
+        catch (Exception $e) {
+
+            return redirect()->route('checkout')->withErrors(['errors' => $e->getMessage()]);
+        }
     }
 
     public function checkout(Request $request){

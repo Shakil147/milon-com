@@ -185,6 +185,7 @@ return [
         /*
          * Package Service Providers...
          */
+        IrfanChowdhury\BkashTokenizedCheckout\BkashServiceProvider::class,
 
         /*
          * Application Service Providers...

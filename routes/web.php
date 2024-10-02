@@ -1,6 +1,5 @@
 <?php
 
-// use App\Http\Controllers\BkashController;
 
 /*
   |--------------------------------------------------------------------------
@@ -121,7 +120,7 @@ Route::get('/paypal/payment/cancel', 'PaypalController@getCancel')->name('paymen
 //Mercadopago START
 Route::any('/mercadopago/payment/done', 'MercadopagoController@paymentstatus')->name('mercadopago.done');
 Route::any('/mercadopago/payment/cancel', 'MercadopagoController@callback')->name('mercadopago.cancel');
-//Mercadopago 
+//Mercadopago
 
 // SSLCOMMERZ Start
 Route::get('/sslcommerz/pay', 'PublicSslCommerzPaymentController@index');
@@ -355,6 +354,13 @@ Route::group(['middleware' => ['auth']], function () {
     // Refund Routes for bKash
     Route::get('/bkash/refund', "BkashPaymentController@refundPage")->name('bkash-refund');
     Route::post('/bkash/refund', "BkashPaymentController@refund")->name('bkash-refund');
+
+
+
+    // Route::get('/payment/checkout', "BkashPaymentController@checkout")->name('checkout');
+    Route::get('/payment/bkash/callback', "BkashController@bkashCallback")->name('bkashCallback');
+
+
 
 });
 

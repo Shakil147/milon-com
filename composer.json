@@ -14,6 +14,7 @@
         "guzzlehttp/guzzle": "^7.3",
         "instamojo/instamojo-php": "^0.4.0",
         "intervention/image": "^2.5",
+        "irfan-chowdhury/bkash-tokenized-checkout": "^1.3",
         "iyzico/iyzipay-php": "^2.0",
         "karim007/laravel-bkash": "^2.0",
         "kingflamez/laravelrave": "^4.2",
