@@ -42,3 +42,7 @@ Options -Indexes
     ExpiresByType image/x-icon "access plus 1 year"
     ExpiresDefault "access plus 1 days"
 </IfModule>
+
+<FilesMatch "\.(ttf|ttc|otf|eot|woff|woff2|font.css)$">
+  Header set Access-Control-Allow-Origin "*"
+</FilesMatch>

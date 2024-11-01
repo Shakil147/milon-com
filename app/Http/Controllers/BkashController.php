@@ -68,7 +68,7 @@ class BkashController extends Controller
             return $payment->pay($request);
         }
         catch (Exception $e) {
-
+            dd($e);
             return redirect()->back()->withErrors(['errors' => $e->getMessage()]);
         }
     }
@@ -82,10 +82,6 @@ class BkashController extends Controller
 
             session()->put('paymentID', $request->paymentID);
 
-            // Implement your other business logic after payment done.
-
-
-            $pay_success = $request->payment_info['transactionStatus'];
 
             $payment_type = Session::get('payment_type');
 
@@ -113,7 +109,7 @@ class BkashController extends Controller
         }
         catch (Exception $e) {
 
-            return redirect()->route('checkout')->withErrors(['errors' => $e->getMessage()]);
+            return redirect(url("/"))->withErrors(['errors' => $e->getMessage()]);
         }
     }
 

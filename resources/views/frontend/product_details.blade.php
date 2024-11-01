@@ -116,11 +116,23 @@
                                     </span>
                                     <span class="ml-1 opacity-50">({{ $total }} {{ translate('reviews')}})</span>
                                 </div>
+                                <!--@if ($detailedProduct->est_shipping_days)-->
+                                <!--<div class="col-auto ml">-->
+                                <!--    <small class="mr-2 opacity-50">{{ translate('Estimate Shipping Time')}}: </small>{{ $detailedProduct->est_shipping_days }} {{  translate('Days') }}-->
+                                <!--</div>-->
+                                <!--@endif-->
                                 @if ($detailedProduct->est_shipping_days)
-                                <div class="col-auto ml">
-                                    <small class="mr-2 opacity-50">{{ translate('Estimate Shipping Time')}}: </small>{{ $detailedProduct->est_shipping_days }} {{  translate('Days') }}
-                                </div>
+                                    <div class="col-auto ml">
+                                        <small class="mr-2 opacity-50">{{ translate('Estimate Shipping Time')}}: </small>
+                                        {{ $detailedProduct->est_shipping_days }} {{ translate('Days') }}
+                                    </div>
+                                @else
+                                    <div class="col-auto ml">
+                                        <small class="mr-2 opacity-50">{{ translate('Estimate Shipping Time')}}: </small>
+                                        2-7 {{ translate('Days') }}
+                                    </div>
                                 @endif
+
                             </div>
 
                             <hr>
@@ -321,7 +333,7 @@
                                             @endphp
                                             <div class="avialable-amount opacity-60">
                                                 @if($detailedProduct->stock_visibility_state == 'quantity')
-                                                (<span id="available-quantity">{{ $qty }}</span> {{ translate('available')}})
+                                                ( Only <span id="available-quantity">{{ $qty }}</span> {{ translate('available')}} )
                                                 @elseif($detailedProduct->stock_visibility_state == 'text' && $qty >= 1)
                                                     (<span id="available-quantity">{{ translate('In Stock') }}</span>)
                                                 @endif
@@ -353,9 +365,9 @@
                                         <i class="la la-share"></i> {{ translate($detailedProduct->external_link_btn)}}
                                     </a>
                                 @else
-                                    <button type="button" class="btn btn-soft-primary mr-2 add-to-cart fw-600" onclick="addToCart()">
+                                    <button type="button" style="background:#ff7701;color:#fff" class="btn btn-soft-primary mr-2 add-to-cart fw-600" onclick="addToCart()">
                                         <i class="las la-shopping-bag"></i>
-                                        <span class="d-none d-md-inline-block"> {{ translate('Add to cart')}}</span>
+                                        <span class="d-md-inline-block"> {{ translate('Add to cart')}}</span>
                                     </button>
                                     <button type="button" class="btn btn-primary buy-now fw-600" onclick="buyNow()">
                                         <i class="la la-shopping-cart"></i> {{ translate('Buy Now')}}

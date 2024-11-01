@@ -9,6 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="app-url" content="{{ getBaseURL() }}">
     <meta name="file-base-url" content="{{ getFileBaseURL() }}">
+    <meta http-equiv="refresh" content="30">
 
     <title>@yield('meta_title', get_setting('website_name').' | '.get_setting('site_motto'))</title>
 

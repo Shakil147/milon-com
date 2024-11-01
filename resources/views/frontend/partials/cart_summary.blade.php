@@ -26,6 +26,7 @@
                 <span class="fw-700 float-right">{{ $total_point }}</span>
             </div>
         @endif
+
         <table class="table">
             <thead>
                 <tr>
@@ -39,7 +40,6 @@
                     $tax = 0;
                     $shipping = 0;
                     $product_shipping_cost = 0;
-                    $shipping_region = $shipping_info['city'];
                 @endphp
                 @foreach ($carts as $key => $cartItem)
                     @php
@@ -47,7 +47,6 @@
                         $subtotal += $cartItem['price'] * $cartItem['quantity'];
                         $tax += $cartItem['tax'] * $cartItem['quantity'];
                         $product_shipping_cost = $cartItem['shipping_cost'];
-                        
                         $shipping += $product_shipping_cost;
                         
                         $product_name_with_choice = $product->getTranslation('name');
@@ -63,7 +62,7 @@
                             </strong>
                         </td>
                         <td class="product-total text-right">
-                            <span class="pl-4 pr-0">{{ single_price($cartItem['price']*$cartItem['quantity']) }}</span>
+                            <span class="pl-4 pr-0">{{ single_price($cartItem['price'] * $cartItem['quantity']) }}</span>
                         </td>
                     </tr>
                 @endforeach
@@ -71,8 +70,8 @@
         </table>
 
         <table class="table">
-
             <tfoot>
+                <!-- Subtotal -->
                 <tr class="cart-subtotal">
                     <th>{{translate('Subtotal')}}</th>
                     <td class="text-right">
@@ -80,6 +79,7 @@
                     </td>
                 </tr>
 
+                <!-- Tax -->
                 <tr class="cart-shipping">
                     <th>{{translate('Tax')}}</th>
                     <td class="text-right">
@@ -87,54 +87,87 @@
                     </td>
                 </tr>
 
+                <!-- Delivery Charge -->
                 <tr class="cart-shipping">
-                    <th>{{translate('Total Shipping')}}</th>
+                    <th>{{translate('Delivery Charge')}}</th>
                     <td class="text-right">
                         <span class="font-italic">{{ single_price($shipping) }}</span>
                     </td>
                 </tr>
 
-                @if (Session::has('club_point'))
-                    <tr class="cart-shipping">
-                        <th>{{translate('Redeem point')}}</th>
-                        <td class="text-right">
-                            <span class="font-italic">{{ single_price(Session::get('club_point')) }}</span>
-                        </td>
-                    </tr>
-                @endif
-
+                <!-- Coupon Discount (if applicable) -->
                 @if ($carts->sum('discount') > 0)
-                    <tr class="cart-shipping">
-                        <th>{{translate('Coupon Discount')}}</th>
-                        <td class="text-right">
-                            <span class="font-italic">{{ single_price($carts->sum('discount')) }}</span>
-                        </td>
-                    </tr>
+                <tr class="cart-shipping">
+                    <th>{{translate('Coupon Discount')}}</th>
+                    <td class="text-right">
+                        <span class="font-italic">- {{ single_price($carts->sum('discount')) }}</span>
+                    </td>
+                </tr>
                 @endif
 
+                <!-- Total (Final Calculation in PHP) -->
                 @php
-                    $total = $subtotal+$tax+$shipping;
-                    if(Session::has('club_point')) {
+                    // Calculate total price
+                    $total = $subtotal + $tax + $shipping;
+
+                    // Apply club points (if available)
+                    if (Session::has('club_point')) {
                         $total -= Session::get('club_point');
                     }
-                    if ($carts->sum('discount') > 0){
+
+                    // Apply coupon discount (if available)
+                    if ($carts->sum('discount') > 0) {
                         $total -= $carts->sum('discount');
                     }
+
+                    // Set advance payment (fixed amount)
+                    $advance_payment = 200;
+
+                    // Calculate total due after advance payment
+                    $total_due = $total - $advance_payment;
                 @endphp
 
+                <!-- Total after applying discounts and points -->
                 <tr class="cart-total">
                     <th><span class="strong-600">{{translate('Total')}}</span></th>
                     <td class="text-right">
                         <strong><span>{{ single_price($total) }}</span></strong>
                     </td>
                 </tr>
+
+                <!-- Advance Payment -->
+                <tr class="advance-payment-row">
+                    <th>{{translate('এ্যাডভান্স টাকা পেমেন্ট করে অর্ডার কনফার্ম করুন')}}</th>
+                    <td class="text-right">
+                        <span class="font-italic">{{ single_price($advance_payment) }}</span>
+                    </td>
+                </tr>
+
+                <!-- Total Due on Delivery -->
+                <tr class="total-due-row">
+                    <th>{{translate(' পণ্য নেওয়ার সময় ডেলিভারিম্যান কে পরিশোধ করবেন')}}</th>
+                    <td class="text-right">
+                        <span class="font-italic">{{ single_price($total_due) }}</span>
+                    </td>
+                </tr>
+
+                <!-- Redeem Point (if applicable) -->
+                @if (Session::has('club_point'))
+                <tr class="cart-shipping">
+                    <th>{{translate('Redeem point')}}</th>
+                    <td class="text-right">
+                        <span class="font-italic">{{ single_price(Session::get('club_point')) }}</span>
+                    </td>
+                </tr>
+                @endif
             </tfoot>
         </table>
 
+        <!-- Coupon System and Club Points Application Forms -->
         @if (addon_is_activated('club_point'))
             @if (Session::has('club_point'))
                 <div class="mt-3">
-                    <form class="" action="{{ route('checkout.remove_club_point') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('checkout.remove_club_point') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="input-group">
                             <div class="form-control">{{ Session::get('club_point')}}</div>
@@ -144,33 +177,13 @@
                         </div>
                     </form>
                 </div>
-            @else
-                {{--@if(Auth::user()->point_balance > 0)
-                    <div class="mt-3">
-                        <p>
-                            {{translate('Your club point is')}}:
-                            @if(isset(Auth::user()->point_balance))
-                                {{ Auth::user()->point_balance }}
-                            @endif
-                        </p>
-                        <form class="" action="{{ route('checkout.apply_club_point') }}" method="POST" enctype="multipart/form-data">
-                            @csrf
-                            <div class="input-group">
-                                <input type="text" class="form-control" name="point" placeholder="{{translate('Enter club point here')}}" required>
-                                <div class="input-group-append">
-                                    <button type="submit" class="btn btn-primary">{{translate('Redeem')}}</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                @endif--}}
             @endif
         @endif
 
         @if (Auth::check() && get_setting('coupon_system') == 1)
             @if ($carts[0]['discount'] > 0)
                 <div class="mt-3">
-                    <form class="" id="remove-coupon-form" enctype="multipart/form-data">
+                    <form id="remove-coupon-form" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="owner_id" value="{{ $carts[0]['owner_id'] }}">
                         <div class="input-group">
@@ -183,7 +196,7 @@
                 </div>
             @else
                 <div class="mt-3">
-                    <form class="" id="apply-coupon-form" enctype="multipart/form-data">
+                    <form id="apply-coupon-form" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="owner_id" value="{{ $carts[0]['owner_id'] }}">
                         <div class="input-group">
@@ -196,6 +209,5 @@
                 </div>
             @endif
         @endif
-
     </div>
 </div>

@@ -189,6 +189,25 @@ class CheckoutController extends Controller
         return back();
     }
 
+    // public function store_shipping_info(Request $request)
+    // {
+    //     if ($request->address_id == null) {
+    //         flash(translate("Please add shipping address"))->warning();
+    //         return back();
+    //     }
+
+    //     $carts = Cart::where('user_id', Auth::user()->id)->get();
+
+    //     foreach ($carts as $key => $cartItem) {
+    //         $cartItem->address_id = $request->address_id;
+    //         $cartItem->save();
+    //     }
+
+    //     return view('frontend.delivery_info', compact('carts'));
+    //     // return view('frontend.payment_select', compact('total'));
+    // }
+    
+    
     public function store_shipping_info(Request $request)
     {
         if ($request->address_id == null) {
@@ -202,8 +221,70 @@ class CheckoutController extends Controller
             $cartItem->address_id = $request->address_id;
             $cartItem->save();
         }
+        
+        $carts = Cart::where('user_id', Auth::user()->id)
+                ->get();
 
-        return view('frontend.delivery_info', compact('carts'));
+        if($carts->isEmpty()) {
+            flash(translate('Your cart is empty'))->warning();
+            return redirect()->route('home');
+        }
+
+        $shipping_info = Address::where('id', $carts[0]['address_id'])->first();
+        $total = 0;
+        $tax = 0;
+        $shipping = 0;
+        $subtotal = 0;
+
+        if ($carts && count($carts) > 0) {
+            foreach ($carts as $key => $cartItem) {
+                $product = \App\Models\Product::find($cartItem['product_id']);
+                $tax += $cartItem['tax'] * $cartItem['quantity'];
+                $subtotal += $cartItem['price'] * $cartItem['quantity'];
+
+                if ($request['shipping_type_' . $product->user_id] == 'pickup_point') {
+                    $cartItem['shipping_type'] = 'pickup_point';
+                    $cartItem['pickup_point'] = $request['pickup_point_id_' . $product->user_id];
+                } else {
+                    $cartItem['shipping_type'] = 'home_delivery';
+                }
+                $cartItem['shipping_cost'] = 0;
+                if ($cartItem['shipping_type'] == 'home_delivery') {
+                    $cartItem['shipping_cost'] = getShippingCost($carts, $key);
+                }
+
+                if(isset($cartItem['shipping_cost']) && is_array(json_decode($cartItem['shipping_cost'], true))) {
+
+                    foreach(json_decode($cartItem['shipping_cost'], true) as $shipping_region => $val) {
+                        if($shipping_info['city'] == $shipping_region) {
+                            $cartItem['shipping_cost'] = (double)($val);
+                            break;
+                        } else {
+                            $cartItem['shipping_cost'] = 0;
+                        }
+                    }
+                } else {
+                    if (!$cartItem['shipping_cost'] ||
+                            $cartItem['shipping_cost'] == null ||
+                            $cartItem['shipping_cost'] == 'null') {
+
+                        $cartItem['shipping_cost'] = 0;
+                    }
+                }
+
+                $shipping += $cartItem['shipping_cost'];
+                $cartItem->save();
+
+            }
+            $total = $subtotal + $tax + $shipping;
+            return view('frontend.payment_select', compact('carts', 'shipping_info', 'total'));
+
+        } else {
+            flash(translate('Your Cart was empty'))->warning();
+            return redirect()->route('home');
+        }
+
+        // return view('frontend.delivery_info', compact('carts'));
         // return view('frontend.payment_select', compact('total'));
     }
 
